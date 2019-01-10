@@ -5,13 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "migrate": "cd app && sequelize db:migrate"
   },
   "author": "Arief Yusron",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.3",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "mysql2": "^1.6.4",
     "nodemon": "^1.18.9",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
     "socket.io": "^2.2.0"
   }
 }
