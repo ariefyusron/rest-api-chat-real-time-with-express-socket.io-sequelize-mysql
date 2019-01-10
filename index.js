@@ -1,5 +1,10 @@
 const express = require('express')
 const socket = require('socket.io')
+const bodyParser = require('body-parser')
+const validator = require('express-validator')
+
+//mine
+const route = require('./app/routes')
 
 //app setup
 const app = express()
@@ -17,5 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//end point
-app.get('/',express.static('public'))
+//app
+app.use(bodyParser.json())
+app.use(validator())
+app.use(route)
