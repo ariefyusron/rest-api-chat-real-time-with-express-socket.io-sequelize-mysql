@@ -1,13 +1,11 @@
 const models = require('../models')
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 //users
 exports.index = (req,res) => {
 
   models.User.findAll({
     where: {
-      id: {[Op.notIn]:[req.userData.id]}
+      id: {[res.Op.notIn]:[req.userData.id]}
     }
   }).then((results) => {
       res.json(results)
@@ -41,7 +39,7 @@ exports.show = (req,res) => {
   
   models.Chat.findAll({
     where: {
-      [Op.or]: [
+      [res.Op.or]: [
         {
           fromUserId: req.userData.id,
           toUserId: req.params.id

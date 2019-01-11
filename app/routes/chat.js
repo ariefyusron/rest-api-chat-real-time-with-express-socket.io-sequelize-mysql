@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const chat = require('../controllers/chat')
-const checkAuth = require('../middleware/checkAuth')
+const checkAuth = require('../middlewares/checkAuth')
 
 router.get('/users',checkAuth,chat.index)
 router.post('/send/:id',checkAuth,chat.send)

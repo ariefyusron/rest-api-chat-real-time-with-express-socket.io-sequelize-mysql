@@ -1,7 +1,9 @@
+//initialize modul
 const express = require('express')
 const socket = require('socket.io')
 const bodyParser = require('body-parser')
 const validator = require('express-validator')
+const Sequelize = require('sequelize')
 
 //mine
 const route = require('./app/routes')
@@ -13,11 +15,15 @@ const server = app.listen(port,() => {
   console.log('Listening on '+port)
 })
 
-//socket setup
+//socket
 const io = socket(server)
 
-//middleware
+//sequelize
+const Op = Sequelize.Op
+
+//middleware for all
 app.use((req, res, next) => {
+  res.Op = Op
   res.io = io;
   next();
 });
