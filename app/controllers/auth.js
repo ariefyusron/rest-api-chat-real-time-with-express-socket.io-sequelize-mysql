@@ -1,24 +1,12 @@
 const bcrypt = require('bcrypt')
-const saltRounds = 10
 const jwt = require('jsonwebtoken')
+const secret_key = process.env.JWT_SECRET
 
 const models = require('../models')
-const secret_key = process.env.JWT_SECRET
 
 //register
 exports.register = (req,res) => {
 
-  req.check('firstName','Firstname is required').not().isEmpty()
-  req.check('lastName','Lastname is required').not().isEmpty()
-  req.check('username','username is required').not().isEmpty()
-  req.check('email','email is not valid').isEmail()
-  req.check('password','Password min 8').isLength({min:8}).equals(req.body.confirmPassword).withMessage('Confirm password is different')
-
-  const errors = req.validationErrors()
-  if (errors){
-    res.status(400).json(errors)
-  } else {
-    req.body.password = bcrypt.hashSync(req.body.password, saltRounds)
     models.User.create(req.body)
       .then((results) => {
         res.json(results)
@@ -27,7 +15,6 @@ exports.register = (req,res) => {
           message: next.fields.email? 'email is already':'username is already'
         })
       })
-  }
 
 }
 
@@ -46,7 +33,7 @@ exports.login = (req,res) => {
       const compare = bcrypt.compareSync(req.body.password, result.password)
       if (compare){
         const token = jwt.sign({id:result.id,username:result.username,email:result.email},secret_key)
-        res.json({token:token})
+        res.json({userData:result,token:token})
       } else {
         res.status(400).json({message: 'Password not valid'})
       }
@@ -64,7 +51,7 @@ exports.login = (req,res) => {
       const compare = bcrypt.compareSync(req.body.password, result.password)
       if (compare){
         const token = jwt.sign({id:result.id,username:result.username,email:result.email},secret_key)
-        res.json({token:token})
+        res.json({userData:result,token:token})
       } else{
         res.status(400).json({message: 'Password not valid'})
       }
