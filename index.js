@@ -1,5 +1,6 @@
 //initialize modul
 const express = require('express')
+const cors = require('cors')
 const socket = require('socket.io')
 const bodyParser = require('body-parser')
 const validator = require('express-validator')
@@ -22,6 +23,7 @@ const io = socket(server)
 const Op = Sequelize.Op
 
 //middleware for all
+app.use(cors())
 app.use((req, res, next) => {
   res.Op = Op
   res.io = io;
