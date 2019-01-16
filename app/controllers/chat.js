@@ -1,16 +1,14 @@
 const models = require('../models')
 
 //users
-exports.index = (req,res) => {
+exports.index = async (req,res) => {
 
-  models.User.findAll({
-    where: {
-      id: {[res.Op.notIn]:[req.userData.id]}
-    }
-  }).then((results) => {
-      res.json(results)
-  })
-
+  const users = await models.User.findAll({
+                        where: {
+                          id: {[res.Op.notIn]:[req.userData.id]}
+                        }
+                      })
+  res.json(users)
 }
 
 //sendChat
@@ -38,22 +36,20 @@ exports.send = async (req,res) => {
 }
 
 //showChat
-exports.show = (req,res) => {
+exports.show = async (req,res) => {
   
-  models.Chat.findAll({
-    where: {
-      [res.Op.or]: [
-        {
-          fromUserId: req.userData.id,
-          toUserId: req.params.id
-        },{
-          fromUserId: req.params.id,
-          toUserId: req.userData.id
-        }
-      ]
-    }
-  }).then((results) => {
-      res.json(results)
-  })
-
+  const chat = await models.Chat.findAll({
+                      where: {
+                        [res.Op.or]: [
+                          {
+                            fromUserId: req.userData.id,
+                            toUserId: req.params.id
+                          },{
+                            fromUserId: req.params.id,
+                            toUserId: req.userData.id
+                          }
+                        ]
+                      }
+                    })
+  res.json(chat)
 }
