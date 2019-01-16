@@ -14,7 +14,7 @@ exports.index = (req,res) => {
 }
 
 //sendChat
-exports.send = (req,res) => {
+exports.send = async (req,res) => {
 
   req.check('chat','Chat is required').not().isEmpty()
 
@@ -22,14 +22,17 @@ exports.send = (req,res) => {
   if (errors){
     res.status(400).json(errors)
   } else{
-    models.Chat.create({
-      chat: req.body.chat,
-      fromUserId:req.userData.id,
-      toUserId:req.params.id
-    })
-      .then((results) => {
+    try{
+        const results = await models.Chat.create({
+          chat: req.body.chat,
+          fromUserId:req.userData.id,
+          toUserId:req.params.id
+        })
+        res.io.emit(req.params.id,results)
         res.json(results)
-      })
+    } catch(error){
+        res.json(error)    
+    }
   }
 
 }
