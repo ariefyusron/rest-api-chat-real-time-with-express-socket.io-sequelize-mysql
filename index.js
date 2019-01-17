@@ -16,8 +16,8 @@ const Op = Sequelize.Op
 app.use(cors())
 app.use((req, res, next) => {
   req.Op = Op
-  res.io = io;
-  next();
+  res.io = io
+  next()
 });
 app.use(bodyParser.json())
 app.use(validator())
