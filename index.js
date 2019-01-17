@@ -19,6 +19,7 @@ const server = app.listen(port,() => {
 //socket
 const io = socket(server)
 
+
 //sequelize
 const Op = Sequelize.Op
 
