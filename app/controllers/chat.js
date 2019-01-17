@@ -5,7 +5,7 @@ exports.index = async (req,res) => {
 
   const users = await models.User.findAll({
                         where: {
-                          id: {[res.Op.notIn]:[req.userData.id]}
+                          id: {[req.Op.notIn]:[req.userData.id]}
                         }
                       })
   res.json(users)
@@ -40,7 +40,7 @@ exports.show = async (req,res) => {
   
   const chat = await models.Chat.findAll({
                       where: {
-                        [res.Op.or]: [
+                        [req.Op.or]: [
                           {
                             fromUserId: req.userData.id,
                             toUserId: req.params.id
