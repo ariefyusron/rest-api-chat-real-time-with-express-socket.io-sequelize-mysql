@@ -26,7 +26,7 @@ exports.send = async (req,res) => {
           fromUserId:req.userData.id,
           toUserId:req.params.id
         })
-        res.io.emit(req.params.id,results)
+        res.io.emit('chat',{receiver:req.params.id,sender:req.userData.id,results})
         res.json(results)
     } catch(error){
         res.json(error)    
